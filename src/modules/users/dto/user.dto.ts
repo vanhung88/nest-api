@@ -1,20 +1,21 @@
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsEnum } from 'class-validator';
+import { UserStatus } from '../user.interface';
 
 export class CreateUserDto {
-  firstName: string;
-  lastName: string;
+  userName: string;
 
   @IsEmail()
   email: string;
 
-  phoneNumber: string;
-
   password: string;
 
   avatarURL: string;
+
+  @IsEnum(UserStatus)
+  status: UserStatus;
 }
 
 export class UpdateUserDto {
-  firstName: string;
-  lastName: string;
+  @IsEnum(UserStatus)
+  status: UserStatus;
 }
