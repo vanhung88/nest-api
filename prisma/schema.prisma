@@ -9,9 +9,10 @@ generator client {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String   @id @default(cuid())
   userName  String
   email String  @unique
   avatarURL String
   status String
+  password String
 }

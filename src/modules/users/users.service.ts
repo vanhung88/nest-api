@@ -8,13 +8,26 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async getUsers(page: number, size: number) {
-    console.log('debug', page, size);
-    return users;
+    try {
+      const items = await this.prisma.user.findMany({
+        skip: (page - 1) * size,
+        take: size,
+      });
+      const total = await this.prisma.user.count();
+      return {
+        items,
+        page,
+        size,
+        total,
+      };
+    } catch (error) {}
+    return this.prisma.user.findMany();
   }
 
-  async getUserDetail(id: string) {
-    console.log('debug', id);
-    const found = users.find((user) => user.id === id);
+  async getUserDetail(id: any) {
+    const found = this.prisma.user.findUnique({
+      where: { id },
+    });
     if (!found) {
       throw new NotFoundException(`${id} not found`);
     }
@@ -30,5 +43,11 @@ export class UsersService {
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
     console.log('debug', updateUserDto);
     return { id: 'sus', name: 'hung' };
+  }
+
+  async deleteUser(id: string) {
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 }
