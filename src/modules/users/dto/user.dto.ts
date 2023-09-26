@@ -3,19 +3,15 @@ import { UserStatus } from '../user.interface';
 
 export class CreateUserDto {
   @IsNotEmpty()
-  userName: string;
+  username: string;
 
-  @IsNotEmpty()
   @IsEmail()
   email: string;
 
-  @IsNotEmpty()
   password: string;
 
-  @IsNotEmpty()
   avatarURL: string;
 
-  @IsEnum(UserStatus)
   status: UserStatus;
 }
 
