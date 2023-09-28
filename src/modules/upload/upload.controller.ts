@@ -29,4 +29,20 @@ export class UploadController {
   ) {
     return this.uploadService.upload(file.originalname, file.buffer);
   }
+
+  @Post('signedUrlS3')
+  @UseInterceptors(FileInterceptor('file'))
+  signedUrlS3(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 100000 }),
+          new FileTypeValidator({ fileType: 'image/(jpg|jpeg|png|gif)' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    return this.uploadService.signedUrlS3(file.originalname, file.buffer);
+  }
 }
