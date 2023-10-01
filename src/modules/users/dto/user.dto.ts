@@ -16,6 +16,7 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto {
-  @IsEnum(UserStatus)
   status: UserStatus;
+
+  avatarURL: string;
 }

@@ -49,12 +49,12 @@ export class UsersService {
       data: { ...createUserDto, status },
     });
   }
-
-  async updateUser(id: string, updateUserDto: UpdateUserDto) {
-    console.log('debug', updateUserDto);
-    return { id: 'sus', name: 'hung' };
+  updateUser(id: string, updateUserDto: UpdateUserDto) {
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
   }
-
   async deleteUser(id: string) {
     return this.prisma.user.delete({
       where: { id },

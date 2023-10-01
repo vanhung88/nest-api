@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   FileTypeValidator,
   MaxFileSizeValidator,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { SignedUrlS3Dto } from './dto/upload.dto';
 
 @Controller('upload')
 export class UploadController {
@@ -31,18 +33,7 @@ export class UploadController {
   }
 
   @Post('signedUrlS3')
-  @UseInterceptors(FileInterceptor('file'))
-  signedUrlS3(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 100000 }),
-          new FileTypeValidator({ fileType: 'image/(jpg|jpeg|png|gif)' }),
-        ],
-      }),
-    )
-    file: Express.Multer.File,
-  ) {
-    return this.uploadService.signedUrlS3(file.originalname, file.buffer);
+  signedUrlS3(@Body() signedUrL: SignedUrlS3Dto) {
+    return this.uploadService.signedUrlS3(signedUrL);
   }
 }
