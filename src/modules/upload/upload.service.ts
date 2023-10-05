@@ -1,6 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-
 import { Injectable } from '@nestjs/common';
 import slugify from 'slugify';
 import { SignedUrlS3Dto } from './dto/upload.dto';
@@ -9,7 +8,7 @@ export class UploadService {
   private readonly s3Client = new S3Client({
     region: process.env.AWS_S3_REGION,
   });
-  async upload(fileName: string, file: Buffer) {
+  async uploadS3(fileName: string, file: Buffer) {
     const fileNameSlugify = slugify(fileName);
     await this.s3Client.send(
       new PutObjectCommand({

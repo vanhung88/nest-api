@@ -1,16 +1,19 @@
-import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
+import { IsEmail } from 'class-validator';
 import { UserStatus } from '../user.interface';
 
 export class CreateUserDto {
-  @IsNotEmpty()
-  username: string;
-
   @IsEmail()
   email: string;
+
+  // firstName: string;
+
+  // lastName: string;
 
   password: string;
 
   avatarURL: string;
+
+  // phoneNumber: string;
 
   status: UserStatus;
 }

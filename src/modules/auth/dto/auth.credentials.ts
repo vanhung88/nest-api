@@ -7,8 +7,6 @@ export class SignInDto {
 }
 
 export class SignUpDto {
-  username: string;
-
   @IsEmail()
   email: string;
 

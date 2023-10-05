@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { SignUpDto, SignInDto } from './dto/auth.credentials';
 import { hash, verify } from 'argon2';
@@ -14,13 +13,10 @@ export class AuthService {
   constructor(private readonly userService: UsersService) {}
 
   async signUp(signUpDto: SignUpDto) {
-    const { email, password, ...rest } = signUpDto;
-    if (!signUpDto?.username) {
-      throw new NotFoundException('username is required');
-    }
+    const { password, ...rest } = signUpDto;
+
     const hashedPassword = await hash(password);
     return this.userService.createUser({
-      email,
       password: hashedPassword,
       ...rest,
     });
@@ -41,8 +37,7 @@ export class AuthService {
       if (!foundUser) {
         throw new NotFoundException('user not found');
       }
-      const { id, username, email } = foundUser;
-      console.log(username);
+      const { id, email } = foundUser;
       const isMathPassword = await verify(
         foundUser?.password,
         signInDto?.password,
@@ -51,7 +46,7 @@ export class AuthService {
         throw new NotFoundException('password not valid');
       }
 
-      const tokens = this.genAccessToken({ id, username, email });
+      const tokens = this.genAccessToken({ id, email });
       console.log(tokens);
       return {
         ...tokens,
