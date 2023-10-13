@@ -1,4 +1,8 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
 import slugify from 'slugify';
@@ -29,8 +33,16 @@ export class UploadService {
         ContentType: signedUrL.type,
       });
       const res = await getSignedUrl(client, command, { expiresIn: 36000 }); // 3600 seconds
+      const commandGet = new GetObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: signedUrL.key,
+      });
+      const url = await getSignedUrl(client, commandGet, {
+        // expiresIn: 36000,
+      }); // 3600 seconds
+
       return {
-        url: res.split('?')[0],
+        url,
         signedRequest: res,
       };
     } catch (error) {
