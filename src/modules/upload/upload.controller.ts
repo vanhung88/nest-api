@@ -54,9 +54,8 @@ export class UploadController {
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random());
+          const ext = extname(file.originalname); // .png
           const filename = `${uniqueSuffix}${ext}`;
           callback(null, filename);
         },

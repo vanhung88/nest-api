@@ -1,5 +1,5 @@
 import { IsEmail } from 'class-validator';
-import { UserStatus } from 'src/modules/users/user.interface';
+import { UserRole, UserStatus } from 'src/modules/users/user.interface';
 
 export class SignInDto {
   email: string;
@@ -15,4 +15,6 @@ export class SignUpDto {
   avatarURL: string;
 
   status: UserStatus;
+
+  role: UserRole;
 }

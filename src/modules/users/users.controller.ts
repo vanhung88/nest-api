@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { UserRole } from './user.interface';
+import { Roles } from './roles.decorator';
 
 @Controller('/users')
 export class UsersController {
@@ -26,6 +28,7 @@ export class UsersController {
   }
 
   @Post()
+  // @Roles(UserRole.ADMIN)
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
   }

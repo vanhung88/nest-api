@@ -1,5 +1,5 @@
 import { IsEmail } from 'class-validator';
-import { UserStatus } from '../user.interface';
+import { UserRole, UserStatus } from '../user.interface';
 
 export class CreateUserDto {
   @IsEmail()
@@ -16,6 +16,8 @@ export class CreateUserDto {
   // phoneNumber: string;
 
   status: UserStatus;
+
+  role: UserRole;
 }
 
 export class UpdateUserDto {

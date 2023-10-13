@@ -7,17 +7,19 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from 'src/shared/utils/token';
+import { UserRole } from '../users/user.interface';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UsersService) {}
 
   async signUp(signUpDto: SignUpDto) {
-    const { password, ...rest } = signUpDto;
+    const { password, role, ...rest } = signUpDto;
 
     const hashedPassword = await hash(password);
     return this.userService.createUser({
       password: hashedPassword,
+      role: role ?? UserRole.USER,
       ...rest,
     });
   }
