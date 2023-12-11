@@ -22,6 +22,7 @@ import { Response } from 'express';
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
+  //api upload file to s3
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   uploadFileS3(
@@ -38,16 +39,13 @@ export class UploadController {
     return this.uploadService.uploadS3(file.originalname, file.buffer);
   }
 
+  // use presigned
   @Post('signedUrlS3')
   signedUrlS3(@Body() signedUrL: SignedUrlS3Dto) {
     return this.uploadService.signedUrlS3(signedUrL);
   }
 
-  @Post('/')
-  upload(@Body() signedUrL: SignedUrlS3Dto) {
-    return this.uploadService.signedUrlS3(signedUrL);
-  }
-
+  // upload in local source
   @Post('/file')
   @UseInterceptors(
     FileInterceptor('file', {

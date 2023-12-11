@@ -5,18 +5,18 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { PrismaService } from 'prisma.service';
-import { UserStatus } from './user.interface';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async getUsers(page: number, size: number) {
+  async getUsers({ page = 1, size = 10000 }: { page?: number; size?: number }) {
     try {
       const items = await this.prisma.user.findMany({
         skip: (page - 1) * size,
         take: size,
       });
+      console.log('a');
       const total = await this.prisma.user.count();
       return {
         items,
@@ -39,8 +39,8 @@ export class UsersService {
   }
 
   async createUser(createUserDto: CreateUserDto) {
-    const { email, status = UserStatus.ACTIVE } = createUserDto;
-    const user = await this.getUserByEmail(email);
+    const { username } = createUserDto;
+    const user = await this.getUserByUserName(username);
 
     if (user) {
       throw new ConflictException('email already exists');
@@ -49,19 +49,21 @@ export class UsersService {
       data: { ...createUserDto, status },
     });
   }
+
   updateUser(id: string, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
   }
+
   async deleteUser(id: string) {
     return this.prisma.user.delete({
       where: { id },
     });
   }
 
-  getUserByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email } });
+  getUserByUserName(username: string) {
+    return this.prisma.user.findUnique({ where: { username } });
   }
 }

@@ -33,11 +33,13 @@ export class AuthService {
 
   async signIn(signInDto: SignInDto) {
     try {
-      const foundUser = await this.userService.getUserByEmail(signInDto?.email);
+      const foundUser = await this.userService.getUserByUserName(
+        signInDto?.username,
+      );
       if (!foundUser) {
         throw new NotFoundException('user not found');
       }
-      const { id, email } = foundUser;
+      const { id, username } = foundUser;
       const isMathPassword = await verify(
         foundUser?.password,
         signInDto?.password,
@@ -46,7 +48,7 @@ export class AuthService {
         throw new NotFoundException('password not valid');
       }
 
-      const tokens = this.genAccessToken({ id, email });
+      const tokens = this.genAccessToken({ id, username });
       console.log(tokens);
       return {
         ...tokens,

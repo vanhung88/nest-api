@@ -4,18 +4,8 @@ import { UserStatus } from '../user.interface';
 export class CreateUserDto {
   @IsEmail()
   email: string;
-
-  // firstName: string;
-
-  // lastName: string;
-
+  username: string;
   password: string;
-
-  avatarURL: string;
-
-  // phoneNumber: string;
-
-  status: UserStatus;
 }
 
 export class UpdateUserDto {

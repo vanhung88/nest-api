@@ -1,18 +1,13 @@
 import { IsEmail } from 'class-validator';
-import { UserStatus } from 'src/modules/users/user.interface';
 
 export class SignInDto {
-  email: string;
+  username: string;
   password: string;
 }
 
 export class SignUpDto {
   @IsEmail()
   email: string;
-
+  username: string;
   password: string;
-
-  avatarURL: string;
-
-  status: UserStatus;
 }

@@ -21,7 +21,7 @@ export class UploadService {
         Body: file,
       }),
     );
-    return `https://tes-admin.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${fileName}`;
+    return `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${fileName}`;
   }
 
   async signedUrlS3(signedUrL: SignedUrlS3Dto) {
@@ -32,14 +32,15 @@ export class UploadService {
         Key: signedUrL.key,
         ContentType: signedUrL.type,
       });
-      const res = await getSignedUrl(client, command, { expiresIn: 36000 }); // 3600 seconds
+      const res = await getSignedUrl(client, command, { expiresIn: 60 }); // 60 seconds
+
       const commandGet = new GetObjectCommand({
         Bucket: process.env.AWS_S3_BUCKET,
         Key: signedUrL.key,
       });
       const url = await getSignedUrl(client, commandGet, {
-        // expiresIn: 36000,
-      }); // 3600 seconds
+        expiresIn: 60,
+      }); // 1 min
 
       return {
         url,

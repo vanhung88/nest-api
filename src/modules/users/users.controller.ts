@@ -16,8 +16,8 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  getUsers(@Query('page') page: string, @Query('size') size: string) {
-    return this.userService.getUsers(+page, +size);
+  getUsers(@Query('page') page?: string, @Query('size') size?: string) {
+    return this.userService.getUsers({ page: +page, size: +size });
   }
 
   @Get(':id')
