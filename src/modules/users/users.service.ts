@@ -43,10 +43,10 @@ export class UsersService {
     const user = await this.getUserByUserName(username);
 
     if (user) {
-      throw new ConflictException('email already exists');
+      throw new ConflictException('username already exists');
     }
     return this.prisma.user.create({
-      data: { ...createUserDto, status },
+      data: { ...createUserDto },
     });
   }
 
