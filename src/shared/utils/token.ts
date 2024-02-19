@@ -9,7 +9,8 @@ export function generateAccessToken(user: JWTUser) {
 
 export function generateRefreshToken() {
   const token = uuidv4();
-  console.log('feat 4');
-  console.log('feat 4.2');
+  console.log('token 1');
+  console.log('token 2 sua lai');
+  console.log('feat 1');
   return token;
 }
