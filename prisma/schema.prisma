@@ -9,13 +9,29 @@ generator client {
 }
 
 model User {
-  id    String   @id @default(cuid())
-  email String  @unique
-  avatarURL String? @db.Text
-  status String?
-  password String
-  username String @unique
-  phoneNumber String?
-  updatedAt   DateTime @updatedAt
-  createdAt   DateTime @default(now())
+  id            String    @id @default(cuid())
+  email         String    @unique
+  avatarURL     String?   @db.Text
+  status        String?
+  password      String
+  username      String    @unique
+  phoneNumber   String?
+  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime  @default(now())
+}
+
+model Message {
+  id              String   @id @default(cuid())
+  sender_id       String
+  receiver_id     String
+  message         String
+  createdAt       DateTime @default(now())
+  conversation_id String
+}
+
+model Conversation {
+  id                String  @id @default(cuid())
+  creator_id        String
+  participant_id    String
+  createdAt         DateTime    @default(now())
 }

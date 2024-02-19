@@ -14,7 +14,6 @@ export class AuthenticationMiddleware implements NestMiddleware {
     try {
       const authHeader = req.header('Authorization');
       const accessToken = authHeader && authHeader.split(' ')[1];
-      console.log('debug', accessToken);
       if (!accessToken) {
         throw 'No token header provided!';
       }
