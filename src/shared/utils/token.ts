@@ -10,5 +10,6 @@ export function generateAccessToken(user: JWTUser) {
 export function generateRefreshToken() {
   const token = uuidv4();
   console.log('token 1');
+  console.log('token 2');
   return token;
 }
